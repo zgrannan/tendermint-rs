@@ -10,7 +10,7 @@ use std::{ops::Deref, slice};
 /// TODO: Update links below!
 /// <https://github.com/tendermint/tendermint/blob/51dc810d041eaac78320adc6d53ad8b160b06601/types/block.go#L486-L502>
 /// <https://github.com/tendermint/spec/blob/d46cd7f573a2c6a2399fcab2cde981330aa63f37/spec/core/data_structures.md#lastcommit>
-#[derive(Serialize, Deserialize, Clone, PartialEq, Debug)]
+#[derive(Serialize, Deserialize, Clone, PartialEq, Eq, Debug)]
 pub struct Commit {
     /// Block height
     pub height: Height,
@@ -26,7 +26,7 @@ pub struct Commit {
 }
 
 /// CommitSigs which certify that a block is valid
-#[derive(Serialize, Deserialize, Clone, Debug, Default)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Default)]
 pub struct CommitSigs(Vec<CommitSig>);
 
 impl CommitSigs {
@@ -60,12 +60,5 @@ impl Deref for CommitSigs {
 
     fn deref(&self) -> &[CommitSig] {
         self.as_ref()
-    }
-}
-
-impl PartialEq for CommitSigs {
-    fn eq(&self, other: &Self) -> bool {
-        // Note: this is used for asserts in tests:
-        self.0.clone().into_iter().eq(other.0.clone().into_iter())
     }
 }

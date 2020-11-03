@@ -12,7 +12,7 @@ use crate::components::io::IoError;
 pub type Error = anomaly::Error<Kind>;
 
 /// The various error kinds raised by the builder
-#[derive(Debug, Clone, Error, PartialEq)]
+#[derive(Debug, Clone, Error, PartialEq, Eq)]
 pub enum Kind {
     /// I/O error
     #[error("I/O error: {0}")]

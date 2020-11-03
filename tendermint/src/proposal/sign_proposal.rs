@@ -10,7 +10,7 @@ use tendermint_proto::DomainType;
 use tendermint_proto::Error as DomainTypeError;
 
 /// SignProposalRequest is a request to sign a proposal
-#[derive(Clone, PartialEq, Debug)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 pub struct SignProposalRequest {
     /// Proposal
     pub proposal: Proposal,
@@ -61,7 +61,7 @@ impl SignProposalRequest {
 }
 
 /// SignedProposalResponse is response containing a signed proposal or an error
-#[derive(Clone, PartialEq, Debug)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 pub struct SignedProposalResponse {
     /// Proposal
     pub proposal: Option<Proposal>,

@@ -8,7 +8,7 @@ use std::convert::TryFrom;
 
 /// CommitSig represents a signature of a validator.
 /// It's a part of the Commit and can be used to reconstruct the vote set given the validator set.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
 #[serde(try_from = "RawCommitSig", into = "RawCommitSig")]
 pub enum CommitSig {
     // TODO: https://github.com/informalsystems/tendermint-rs/issues/260 - CommitSig validator address missing in Absent vote

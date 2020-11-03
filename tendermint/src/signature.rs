@@ -14,7 +14,7 @@ use subtle_encoding::base64;
 use tendermint_proto::DomainType;
 
 /// Signatures
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 #[non_exhaustive]
 pub enum Signature {
     /// Ed25519 block signature

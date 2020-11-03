@@ -12,7 +12,7 @@ use crate::{
 };
 
 /// Result of fork detection
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ForkDetection {
     /// One or more forks have been detected
     Detected(Vec<Fork>),
@@ -21,7 +21,7 @@ pub enum ForkDetection {
 }
 
 /// Types of fork
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Fork {
     /// An actual fork was found for this `LightBlock`
     Forked {

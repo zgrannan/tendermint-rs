@@ -8,7 +8,7 @@ use std::str::FromStr;
 // Implements decision: https://github.com/tendermint/tendermint/blob/master/docs/architecture/adr-025-commit.md#decision
 
 /// indicate which BlockID the signature is for
-#[derive(Serialize_repr, Deserialize_repr, PartialEq, Debug)]
+#[derive(Serialize_repr, Deserialize_repr, PartialEq, Eq, Debug)]
 #[repr(u8)]
 pub enum BlockIDFlag {
     /// vote is not included in the Commit.Precommits

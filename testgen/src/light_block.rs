@@ -30,7 +30,7 @@ use tendermint::validator::Set as ValidatorSet;
 ///         }
 ///     }
 /// }
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct TMLightBlock {
     /// Header and commit of this block
     pub signed_header: SignedHeader,

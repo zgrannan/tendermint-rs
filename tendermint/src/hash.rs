@@ -142,7 +142,7 @@ impl Serialize for Hash {
 }
 
 /// AppHash is usually a SHA256 hash, but in reality it can be any kind of data
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct AppHash(Vec<u8>);
 
 impl DomainType<Vec<u8>> for AppHash {}
@@ -196,12 +196,6 @@ impl Display for AppHash {
             "{}",
             Hex::upper_case().encode_to_string(&self.0).unwrap()
         )
-    }
-}
-
-impl PartialEq for AppHash {
-    fn eq(&self, other: &Self) -> bool {
-        self.0 == other.0
     }
 }
 

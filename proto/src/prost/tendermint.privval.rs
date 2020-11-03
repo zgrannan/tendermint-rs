@@ -1,4 +1,4 @@
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, ::prost::Message, Eq)]
 pub struct RemoteSignerError {
     #[prost(int32, tag="1")]
     pub code: i32,

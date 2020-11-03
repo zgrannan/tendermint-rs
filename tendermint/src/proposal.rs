@@ -20,7 +20,7 @@ use tendermint_proto::types::Proposal as RawProposal;
 use tendermint_proto::{DomainType, Error as DomainTypeError};
 
 /// Proposal
-#[derive(Clone, PartialEq, Debug)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 pub struct Proposal {
     /// Proposal message type
     pub msg_type: Type,

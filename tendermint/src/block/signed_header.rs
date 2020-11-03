@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 use crate::block;
 
 /// Signed block headers
-#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 pub struct SignedHeader {
     /// Block header
     pub header: block::Header,

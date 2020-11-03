@@ -15,7 +15,7 @@ const EXAMPLE_SIGNATURE: [u8; 64] = [
 
 #[test]
 fn serde_integer_string() {
-    #[derive(Serialize, Deserialize, PartialEq, Debug)]
+    #[derive(Serialize, Deserialize, PartialEq, Eq, Debug)]
     struct IntegerTests {
         #[serde(with = "super::from_str")]
         unsigned: u64,
@@ -36,7 +36,7 @@ fn serde_integer_string() {
 
 #[test]
 fn serde_duration_string() {
-    #[derive(Serialize, Deserialize, Debug, PartialEq)]
+    #[derive(Serialize, Deserialize, Debug, PartialEq, Eq)]
     struct DurationTests {
         #[serde(with = "super::time_duration")]
         duration: Duration,
@@ -53,7 +53,7 @@ fn serde_duration_string() {
 
 #[test]
 fn serde_vec_string() {
-    #[derive(Serialize, Deserialize, Debug, PartialEq)]
+    #[derive(Serialize, Deserialize, Debug, PartialEq, Eq)]
     struct BytesTests {
         #[serde(with = "super::bytes::hexstring")]
         myhexbytes: Vec<u8>,

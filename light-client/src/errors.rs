@@ -18,7 +18,7 @@ use crate::{
 pub type Error = anomaly::Error<ErrorKind>;
 
 /// The various error kinds raised by this library
-#[derive(Debug, Clone, Error, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Error, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ErrorKind {
     /// I/O error
     #[error("I/O error: {0}")]

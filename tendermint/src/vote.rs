@@ -31,7 +31,7 @@ use crate::signature::Signature::Ed25519;
 /// include information about the validator signing it.
 ///
 /// <https://github.com/tendermint/spec/blob/d46cd7f573a2c6a2399fcab2cde981330aa63f37/spec/core/data_structures.md#vote>
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct Vote {
     /// Type of vote (prevote or precommit)
     #[serde(rename = "type")]
@@ -212,7 +212,7 @@ impl SignedVote {
 
 /// Types of votes
 #[repr(u8)]
-#[derive(Copy, Clone, Debug, Eq, Hash, PartialEq)]
+#[derive(Copy, Clone, Debug, Hash, PartialEq, Eq)]
 pub enum Type {
     /// Votes for blocks which validators observe are valid for a given round
     Prevote = 1,

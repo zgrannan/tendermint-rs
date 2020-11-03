@@ -1,7 +1,7 @@
-use git2::Repository;
-use prost_build::compile_protos;
 use std::env::var;
 use std::path::{Path, PathBuf};
+
+use git2::Repository;
 use walkdir::WalkDir;
 
 fn main() {
@@ -36,6 +36,12 @@ fn main() {
     // List available paths for dependencies
     let includes: Vec<PathBuf> = proto_includes_paths.iter().map(PathBuf::from).collect();
 
+    // Add an Eq bound to some generated structs/enums
+    let mut prost_config = prost_build::Config::new();
+    prost_config.type_attribute("tendermint.privval.RemoteSignerError", "#[derive(Eq)]");
+    prost_config.type_attribute("tendermint.crypto.PublicKey", "#[derive(Eq)]");
+    prost_config.type_attribute("tendermint.crypto.Sum", "#[derive(Eq)]");
+
     // Compile all proto files
-    compile_protos(&protos, &includes).unwrap();
+    prost_config.compile_protos(&protos, &includes).unwrap();
 }

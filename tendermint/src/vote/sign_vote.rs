@@ -9,7 +9,7 @@ use tendermint_proto::DomainType;
 use tendermint_proto::Error as DomainTypeError;
 
 /// SignVoteRequest is a request to sign a vote
-#[derive(Clone, PartialEq, Debug)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 pub struct SignVoteRequest {
     /// Vote
     pub vote: Vote,
@@ -59,7 +59,7 @@ impl SignVoteRequest {
 }
 
 /// SignedVoteResponse is a response containing a signed vote or an error
-#[derive(Clone, PartialEq, Debug)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 pub struct SignedVoteResponse {
     /// Optional Vote
     pub vote: Option<Vote>,

@@ -478,7 +478,7 @@ mod two_phase_router {
     }
 
     /// The current state of a subscription.
-    #[derive(Debug, Clone, PartialEq)]
+    #[derive(Debug, Clone, PartialEq, Eq)]
     pub enum SubscriptionState {
         Pending,
         Active,

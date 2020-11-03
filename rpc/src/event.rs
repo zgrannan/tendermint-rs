@@ -13,7 +13,7 @@ use crate::{response::Wrapper, Response};
 /// An incoming event produced by a [`Subscription`].
 ///
 /// [`Subscription`]: ../struct.Subscription.html
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub struct Event {
     /// The query that produced the event.
     pub query: String,
@@ -40,7 +40,7 @@ impl Event {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(tag = "type", content = "value")]
 pub enum EventData {
     #[serde(alias = "tendermint/event/NewBlock")]
@@ -58,7 +58,7 @@ pub enum EventData {
 }
 
 /// Transaction result info.
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub struct TxInfo {
     pub height: String,
     pub index: Option<i64>,
@@ -67,7 +67,7 @@ pub struct TxInfo {
 }
 
 /// Transaction result.
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub struct TxResult {
     pub log: Option<String>,
     pub gas_wanted: Option<String>,
@@ -76,7 +76,7 @@ pub struct TxResult {
 }
 
 /// Tendermint ABCI Events
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub struct TmEvent {
     #[serde(rename = "type")]
     pub event_type: String,
@@ -84,7 +84,7 @@ pub struct TmEvent {
 }
 
 /// Event Attributes
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub struct Attribute {
     pub key: String,
     pub value: String,

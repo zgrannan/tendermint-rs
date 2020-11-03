@@ -10,7 +10,7 @@ use tendermint_proto::types::CanonicalProposal as RawCanonicalProposal;
 use tendermint_proto::DomainType;
 
 /// CanonicalProposal for signing
-#[derive(Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct CanonicalProposal {
     /// type alias for byte
     pub msg_type: Type,

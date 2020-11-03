@@ -19,7 +19,7 @@ use crate::{
 /// Verification parameters
 ///
 /// TODO: Find a better name than `Options`
-#[derive(Copy, Clone, Debug, PartialEq, Display, Serialize, Deserialize)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Display, Serialize, Deserialize)]
 #[display(fmt = "{:?}", self)]
 pub struct Options {
     /// Defines what fraction of the total voting power of a known

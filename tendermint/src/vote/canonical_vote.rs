@@ -11,7 +11,7 @@ use {
 };
 
 /// CanonicalVote is used for protobuf encoding a Vote
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct CanonicalVote {
     /// Type of vote (prevote or precommit)
     #[serde(rename = "type")]

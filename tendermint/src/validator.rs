@@ -10,7 +10,7 @@ use tendermint_proto::types::SimpleValidator as RawSimpleValidator;
 use tendermint_proto::DomainType;
 
 /// Validator set contains a vector of validators
-#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 pub struct Set {
     #[serde(deserialize_with = "parse_vals")]
     validators: Vec<Info>,
@@ -75,7 +75,7 @@ where
 }
 
 /// Validator information
-#[derive(Clone, Copy, Debug, Deserialize, PartialEq, Serialize)]
+#[derive(Clone, Copy, Debug, Deserialize, PartialEq, Eq, Serialize)]
 pub struct Info {
     /// Validator account address
     pub address: account::Id,
@@ -133,7 +133,7 @@ impl DomainType<RawSimpleValidator> for SimpleValidator {}
 /// nor the proposer priority, as that changes with every block even if the validator set didn't.
 /// It contains only the pubkey and the voting power.
 /// TODO: currently only works for Ed25519 pubkeys
-#[derive(Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct SimpleValidator {
     /// Public key
     pub pub_key: Option<tendermint_proto::crypto::PublicKey>,
@@ -222,7 +222,7 @@ impl Serialize for ProposerPriority {
 }
 
 /// Updates to the validator set
-#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Update {
     /// Validator public key
     #[serde(deserialize_with = "deserialize_public_key")]

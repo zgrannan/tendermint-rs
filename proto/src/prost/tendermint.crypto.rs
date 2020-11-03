@@ -46,13 +46,13 @@ pub struct ProofOps {
     pub ops: ::std::vec::Vec<ProofOp>,
 }
 /// PublicKey defines the keys available for use with Tendermint Validators
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, ::prost::Message, Eq)]
 pub struct PublicKey {
     #[prost(oneof="public_key::Sum", tags="1")]
     pub sum: ::std::option::Option<public_key::Sum>,
 }
 pub mod public_key {
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, PartialEq, ::prost::Oneof, Eq)]
     pub enum Sum {
         #[prost(bytes, tag="1")]
         Ed25519(std::vec::Vec<u8>),

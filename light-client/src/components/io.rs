@@ -30,7 +30,7 @@ impl From<Height> for AtHeight {
 }
 
 /// I/O errors
-#[derive(Clone, Debug, Error, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, Error, PartialEq, Eq, Serialize, Deserialize)]
 pub enum IoError {
     /// Wrapper for a `tendermint::rpc::Error`.
     #[error(transparent)]

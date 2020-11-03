@@ -11,7 +11,7 @@ use {
 /// evidence: `DuplicateVoteEvidence`.
 ///
 /// <https://github.com/tendermint/spec/blob/d46cd7f573a2c6a2399fcab2cde981330aa63f37/spec/core/data_structures.md#evidence>
-#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type", content = "value")]
 pub enum Evidence {
     /// Duplicate vote evidence
@@ -24,14 +24,14 @@ pub enum Evidence {
 }
 
 /// Duplicate vote evidence
-#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct DuplicateVoteEvidence {
     vote_a: Vote,
     vote_b: Vote,
 }
 
 /// Conflicting headers evidence.
-#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct ConflictingHeadersEvidence {
     #[serde(rename = "H1")]
     h1: SignedHeader,
@@ -49,7 +49,7 @@ impl ConflictingHeadersEvidence {
 /// Evidence data is a wrapper for a list of `Evidence`.
 ///
 /// <https://github.com/tendermint/spec/blob/d46cd7f573a2c6a2399fcab2cde981330aa63f37/spec/core/data_structures.md#evidencedata>
-#[derive(Deserialize, Serialize, Clone, Debug, Default, PartialEq)]
+#[derive(Deserialize, Serialize, Clone, Debug, Default, PartialEq, Eq)]
 pub struct Data {
     evidence: Option<Vec<Evidence>>,
 }

@@ -5,7 +5,7 @@ use tendermint_proto::privval::PubKeyRequest as RawPubKeyRequest;
 use tendermint_proto::DomainType;
 
 /// PubKeyRequest requests the consensus public key from the remote signer.
-#[derive(Clone, PartialEq, Debug)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 pub struct PubKeyRequest {
     /// Chain ID
     pub chain_id: ChainId,

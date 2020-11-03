@@ -7,14 +7,14 @@ use tendermint_light_client::{
 };
 use tendermint_testgen::{apalache::*, jsonatr::*, Command, TestEnv, Tester};
 
-#[derive(Deserialize, Clone, Debug, PartialEq)]
+#[derive(Deserialize, Clone, Debug, PartialEq, Eq)]
 pub enum LiteTestKind {
     SingleStep,
     Bisection,
 }
 
 /// An abstraction of the LightClient verification verdict
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
 pub enum LiteVerdict {
     /// verified successfully
     #[serde(rename = "SUCCESS")]

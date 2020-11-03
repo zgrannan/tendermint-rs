@@ -198,7 +198,7 @@ pub fn verify_bisection(
 // in the light blocks serialized in the JSON fixtures.
 // -----------------------------------------------------------------------------
 
-#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 pub struct AnonLightBlock {
     pub signed_header: SignedHeader,
     #[serde(rename = "validator_set")]
