@@ -220,7 +220,10 @@ impl LightClient {
                     // and abort.
                     state.light_store.update(&current_block, Status::Failed);
 
-                    bail!(ErrorKind::InvalidLightBlock(e))
+                    bail!(ErrorKind::InvalidLightBlock {
+                        reason: e,
+                        light_block: Box::new(current_block),
+                    })
                 }
                 Verdict::NotEnoughTrust(_) => {
                     // The current block cannot be trusted because of a missing overlap in the

@@ -75,8 +75,14 @@ pub enum ErrorKind {
     BisectionFailed(Height, Height),
 
     /// Verification failed for a light block
-    #[error("invalid light block: {0}")]
-    InvalidLightBlock(#[source] VerificationError),
+    #[error("invalid light block: {reason}")]
+    InvalidLightBlock {
+        /// Reason for the light block being invalid
+        #[source]
+        reason: VerificationError,
+        /// Light block which failed verification
+        light_block: Box<LightBlock>,
+    },
 
     /// Internal channel disconnected
     #[error("internal channel disconnected")]
@@ -108,16 +114,16 @@ pub trait ErrorExt {
 
 impl ErrorExt for ErrorKind {
     fn not_enough_trust(&self) -> bool {
-        if let Self::InvalidLightBlock(e) = self {
-            e.not_enough_trust()
+        if let Self::InvalidLightBlock { reason, .. } = self {
+            reason.not_enough_trust()
         } else {
             false
         }
     }
 
     fn has_expired(&self) -> bool {
-        if let Self::InvalidLightBlock(e) = self {
-            e.has_expired()
+        if let Self::InvalidLightBlock { reason, .. } = self {
+            reason.has_expired()
         } else {
             false
         }
