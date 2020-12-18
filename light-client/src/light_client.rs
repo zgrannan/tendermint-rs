@@ -8,7 +8,6 @@ use serde::{Deserialize, Serialize};
 use std::{fmt, time::Duration};
 
 use crate::components::{clock::Clock, io::*, scheduler::*, verifier::*};
-use crate::contracts::*;
 use crate::{
     bail,
     errors::{Error, ErrorKind},
@@ -48,6 +47,7 @@ pub struct Options {
 /// of the header, more than two-thirds of the next validators of a new block are
 /// correct for the duration of the trusted period.  The fault-tolerant read operation
 /// is designed for this security model.
+#[allow(dead_code)]
 pub struct LightClient {
     /// The peer id of the peer this client is connected to
     pub peer: PeerId,

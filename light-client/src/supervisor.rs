@@ -214,7 +214,7 @@ impl Supervisor {
         match verdict {
             // Verification succeeded, let's perform fork detection
             Ok(verified_block) => {
-                let trusted_block = primary
+                let _trusted_block = primary
                     .latest_trusted()
                     .ok_or(ErrorKind::NoTrustedState(Status::Trusted))?;
 
@@ -304,6 +304,7 @@ impl Supervisor {
     }
 
     /// Perform fork detection with the given verified block and trusted block.
+    #[allow(dead_code)]
     fn detect_forks(
         &self,
         verified_block: &LightBlock,
