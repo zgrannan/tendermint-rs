@@ -114,7 +114,7 @@ impl TryFrom<RawHeader> for Header {
             version: value.version.ok_or(Kind::MissingVersion)?.try_into()?,
             chain_id: value.chain_id.try_into()?,
             height,
-            time: value.time.ok_or(Kind::NoTimestamp)?.try_into()?,
+            time: value.time.ok_or(Kind::NoTimestamp)?.into(),
             last_block_id,
             last_commit_hash,
             data_hash: if value.data_hash.is_empty() {
@@ -212,7 +212,7 @@ pub struct Version {
 impl Protobuf<RawConsensusVersion> for Version {}
 
 impl TryFrom<RawConsensusVersion> for Version {
-    type Error = anomaly::BoxError;
+    type Error = Error;
 
     fn try_from(value: RawConsensusVersion) -> Result<Self, Self::Error> {
         Ok(Version {

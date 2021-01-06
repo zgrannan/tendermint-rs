@@ -77,7 +77,7 @@ impl TryFrom<RawVote> for Vote {
                 .map(TryInto::try_into)
                 .transpose()?
                 .filter(|i| i != &block::Id::default()),
-            timestamp: value.timestamp.map(TryInto::try_into).transpose()?,
+            timestamp: value.timestamp.map(Into::into),
             validator_address: value.validator_address.try_into()?,
             validator_index: value.validator_index.try_into()?,
             signature: value.signature.try_into()?,

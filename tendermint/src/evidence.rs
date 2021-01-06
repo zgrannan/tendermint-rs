@@ -78,7 +78,7 @@ impl TryFrom<RawDuplicateVoteEvidence> for DuplicateVoteEvidence {
             vote_b: value.vote_b.ok_or(Kind::MissingEvidence)?.try_into()?,
             total_voting_power: value.total_voting_power.try_into()?,
             validator_power: value.validator_power.try_into()?,
-            timestamp: value.timestamp.ok_or(Kind::MissingTimestamp)?.try_into()?,
+            timestamp: value.timestamp.ok_or(Kind::MissingTimestamp)?.into(),
         })
     }
 }
