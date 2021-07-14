@@ -1,4 +1,6 @@
 //! Serialize/deserialize Timestamp type from and into string:
+extern crate prusti_contracts;
+use prusti_contracts::*;
 use serde::{de::Error as _, Deserialize, Deserializer, Serialize, Serializer};
 
 use crate::google::protobuf::Timestamp;
@@ -8,9 +10,7 @@ use serde::ser::Error;
 /// Helper struct to serialize and deserialize Timestamp into an RFC3339-compatible string
 /// This is required because the serde `with` attribute is only available to fields of a struct but
 /// not the whole struct.
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(transparent)]
-pub struct Rfc3339(#[serde(with = "crate::serializers::timestamp")] Timestamp);
+pub struct Rfc3339(Timestamp);
 
 impl From<Timestamp> for Rfc3339 {
     fn from(value: Timestamp) -> Self {
@@ -24,13 +24,14 @@ impl From<Rfc3339> for Timestamp {
 }
 
 /// Deserialize string into Timestamp
+#[trusted]
 pub fn deserialize<'de, D>(deserializer: D) -> Result<Timestamp, D::Error>
 where
     D: Deserializer<'de>,
 {
     let value_string = String::deserialize(deserializer)?;
     let value_datetime = DateTime::parse_from_rfc3339(value_string.as_str())
-        .map_err(|e| D::Error::custom(format!("{}", e)))?;
+        .map_err(|e| D::Error::custom(e))?;
     Ok(Timestamp {
         seconds: value_datetime.timestamp(),
         nanos: value_datetime.timestamp_subsec_nanos() as i32,
@@ -38,6 +39,7 @@ where
 }
 
 /// Serialize from Timestamp into string
+#[trusted]
 pub fn serialize<S>(value: &Timestamp, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
@@ -58,6 +60,7 @@ where
 /// This reproduces the behavior of Go's `time.RFC3339Nano` format,
 /// ie. a RFC3339 date-time with left-padded subsecond digits without
 ///     trailing zeros and no trailing dot.
+#[trusted]
 pub fn as_rfc3339_nanos(t: &DateTime<Utc>) -> String {
     use chrono::format::{Fixed, Item, Numeric::*, Pad::Zero};
 

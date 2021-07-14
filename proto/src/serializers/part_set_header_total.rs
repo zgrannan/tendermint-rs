@@ -5,6 +5,8 @@
 //! string-quoted integer value into an integer value without quotes in Tendermint Core v0.34.0.
 //! This deserializer allows backwards-compatibility by deserializing both ways.
 //! See also: <https://github.com/informalsystems/tendermint-rs/issues/679>
+extern crate prusti_contracts;
+use prusti_contracts::*;
 use serde::{de::Error, de::Visitor, Deserializer, Serialize, Serializer};
 use std::convert::TryFrom;
 use std::fmt::Formatter;
@@ -30,22 +32,25 @@ where
 impl<'de> Visitor<'de> for PartSetHeaderTotalStringOrU32 {
     type Value = u32;
 
+    #[trusted]
     fn expecting(&self, formatter: &mut Formatter<'_>) -> std::fmt::Result {
         formatter.write_str("an u32 integer or string between 0 and 2^32")
     }
 
+    #[trusted]
     fn visit_u64<E>(self, v: u64) -> Result<Self::Value, E>
     where
         E: Error,
     {
-        u32::try_from(v).map_err(|e| E::custom(format!("part_set_header.total {}", e)))
+        u32::try_from(v).map_err(|e| E::custom(e))
     }
 
+    #[trusted]
     fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
     where
         E: Error,
     {
         v.parse::<u32>()
-            .map_err(|e| E::custom(format!("part_set_header.total {}", e)))
+            .map_err(|e| E::custom(e))
     }
 }

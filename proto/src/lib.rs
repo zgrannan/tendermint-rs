@@ -4,12 +4,13 @@
 #![allow(clippy::large_enum_variant)]
 #![forbid(unsafe_code)]
 #![doc(html_root_url = "https://docs.rs/tendermint-proto/0.20.0")]
+extern crate prusti_contracts;
 
 /// Built-in prost_types with slight customization to enable JSON-encoding
 #[allow(warnings)]
 pub mod google {
     pub mod protobuf {
-        include!("prost/google.protobuf.rs");
+        // include!("prost/google.protobuf.rs");
         // custom Timeout and Duration types that have valid doctest documentation texts
         include!("protobuf.rs");
     }
@@ -26,6 +27,7 @@ pub use error::{Error, Kind};
 use prost::encoding::encoded_len_varint;
 use prost::Message;
 use std::convert::{TryFrom, TryInto};
+use prusti_contracts::*;
 
 pub mod serializers;
 
@@ -179,9 +181,11 @@ where
     }
 
     /// Encodes into a Protobuf-encoded `Vec<u8>`.
+    #[trusted]
     fn encode_vec(&self) -> Result<Vec<u8>, Error> {
         let mut wire = Vec::with_capacity(self.encoded_len());
-        self.encode(&mut wire).map(|_| wire)
+        self.encode(&mut wire)?;
+        Ok(wire)
     }
 
     /// Constructor that attempts to decode a Protobuf-encoded instance from a
@@ -191,11 +195,13 @@ where
     }
 
     /// Encode with a length-delimiter to a `Vec<u8>` Protobuf-encoded message.
+    #[trusted]
     fn encode_length_delimited_vec(&self) -> Result<Vec<u8>, Error> {
         let len = self.encoded_len();
         let lenu64 = len.try_into().map_err(|e| Kind::EncodeMessage.context(e))?;
         let mut wire = Vec::with_capacity(len + encoded_len_varint(lenu64));
-        self.encode_length_delimited(&mut wire).map(|_| wire)
+        self.encode_length_delimited(&mut wire)?;
+        Ok(wire)
     }
 
     /// Constructor that attempts to decode a Protobuf-encoded instance with a

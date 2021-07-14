@@ -1,9 +1,13 @@
 //! De/serialize an optional type that must be converted from/to a string.
+extern crate prusti_contracts;
+use prusti_contracts::*;
+
 
 use serde::de::Error;
 use serde::{Deserialize, Deserializer, Serializer};
 use std::str::FromStr;
 
+#[trusted]
 pub fn serialize<S, T>(value: &Option<T>, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
@@ -15,6 +19,7 @@ where
     }
 }
 
+#[trusted]
 pub fn deserialize<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
 where
     D: Deserializer<'de>,
