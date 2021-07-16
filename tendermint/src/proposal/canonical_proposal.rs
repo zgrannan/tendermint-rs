@@ -67,7 +67,7 @@ impl From<CanonicalProposal> for RawCanonicalProposal {
         // See: https://github.com/informalsystems/tendermint-rs/issues/663
         let block_id = value.block_id.filter(|i| i != &BlockId::default());
         RawCanonicalProposal {
-            r#type: value.msg_type.into(),
+            // r#type: value.msg_type.into(),
             height: value.height.into(),
             round: i32::from(value.round) as i64,
             pol_round: match value.pol_round {

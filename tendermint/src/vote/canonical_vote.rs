@@ -7,8 +7,8 @@ use tendermint_proto::types::CanonicalVote as RawCanonicalVote;
 use tendermint_proto::Protobuf;
 
 /// CanonicalVote is used for protobuf encoding a Vote
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
-#[serde(try_from = "RawCanonicalVote", into = "RawCanonicalVote")]
+#[derive(Clone, Debug, PartialEq)]
+// #[serde(try_from = "RawCanonicalVote", into = "RawCanonicalVote")]
 pub struct CanonicalVote {
     /// Type of vote (prevote or precommit)
     pub vote_type: super::Type,
@@ -47,7 +47,7 @@ impl TryFrom<RawCanonicalVote> for CanonicalVote {
         // See: https://github.com/informalsystems/tendermint-rs/issues/663
         let block_id = value.block_id.filter(|i| !i.hash.is_empty());
         Ok(CanonicalVote {
-            vote_type: value.r#type.try_into()?,
+            vote_type: 0.try_into()?,
             height: value.height.try_into()?,
             round: (value.round as i32).try_into()?,
             block_id: block_id.map(TryInto::try_into).transpose()?,
@@ -63,7 +63,7 @@ impl From<CanonicalVote> for RawCanonicalVote {
         // See: https://github.com/informalsystems/tendermint-rs/issues/663
         let block_id = value.block_id.filter(|i| i != &block::Id::default());
         RawCanonicalVote {
-            r#type: value.vote_type.into(),
+            // r#type: value.vote_type.into(),
             height: value.height.into(),
             round: value.round.value().into(),
             block_id: block_id.map(Into::into),

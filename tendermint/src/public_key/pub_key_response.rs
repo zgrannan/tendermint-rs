@@ -4,7 +4,7 @@ use tendermint_proto::privval::{PubKeyResponse as RawPubKeyResponse, RemoteSigne
 use tendermint_proto::Protobuf;
 
 /// PubKeyResponse
-#[derive(Clone, PartialEq, Debug)]
+#[derive(Clone, PartialEq)]
 // Todo: either pub_key OR error is present
 pub struct PubKeyResponse {
     /// Public key

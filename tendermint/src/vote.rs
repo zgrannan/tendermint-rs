@@ -17,7 +17,7 @@ use crate::{Error, Kind::*};
 use bytes::BufMut;
 use ed25519::Signature as ed25519Signature;
 use ed25519::SIGNATURE_LENGTH as ed25519SignatureLength;
-use serde::{Deserialize, Serialize};
+// use serde::{Deserialize, Serialize};
 use std::convert::{TryFrom, TryInto};
 use std::fmt;
 use tendermint_proto::types::Vote as RawVote;
@@ -30,8 +30,8 @@ use std::str::FromStr;
 /// include information about the validator signing it.
 ///
 /// <https://github.com/tendermint/spec/blob/d46cd7f573a2c6a2399fcab2cde981330aa63f37/spec/core/data_structures.md#vote>
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
-#[serde(try_from = "RawVote", into = "RawVote")]
+#[derive( Clone, Debug, PartialEq)]
+// // // #[serde(try_from = "RawVote", into = "RawVote")]
 pub struct Vote {
     /// Type of vote (prevote or precommit)
     pub vote_type: Type,
@@ -68,7 +68,7 @@ impl TryFrom<RawVote> for Vote {
             return Err(NoTimestamp.into());
         }
         Ok(Vote {
-            vote_type: value.r#type.try_into()?,
+            vote_type: 0.try_into()?,
             height: value.height.try_into()?,
             round: value.round.try_into()?,
             // block_id can be nil in the Go implementation
@@ -88,7 +88,7 @@ impl TryFrom<RawVote> for Vote {
 impl From<Vote> for RawVote {
     fn from(value: Vote) -> Self {
         RawVote {
-            r#type: value.vote_type.into(),
+            // // // r#type: value.vote_type.into(),
             height: value.height.into(),
             round: value.round.into(),
             block_id: value.block_id.map(Into::into),

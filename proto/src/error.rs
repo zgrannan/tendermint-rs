@@ -1,5 +1,5 @@
 //! This module defines the various errors that be raised during Protobuf conversions.
-extern crate prusti_contracts;
+// extern crate prusti_contracts;
 use prusti_contracts::*;
 
 use std::fmt;

@@ -25,7 +25,6 @@ use anomaly::BoxError;
 use bytes::{Buf, BufMut};
 pub use error::{Error, Kind};
 use prost::encoding::encoded_len_varint;
-use prost::Message;
 use std::convert::{TryFrom, TryInto};
 use prusti_contracts::*;
 
@@ -108,7 +107,7 @@ pub mod serializers;
 /// // We expect a validation error here
 /// assert!(MyDomainType::decode(invalid_raw_bytes.as_ref()).is_err());
 /// ```
-pub trait Protobuf<T: Message + From<Self> + Default>
+pub trait Protobuf<T: From<Self>>
 where
     Self: Sized + Clone + TryFrom<T>,
     <Self as TryFrom<T>>::Error: Into<BoxError>,
@@ -119,10 +118,13 @@ where
     /// Protobuf data structure.
     ///
     /// [`prost::Message::encode`]: https://docs.rs/prost/*/prost/trait.Message.html#method.encode
-    fn encode<B: BufMut>(&self, buf: &mut B) -> Result<(), Error> {
-        T::from(self.clone())
-            .encode(buf)
-            .map_err(|e| Kind::EncodeMessage.context(e).into())
+    ///
+    #[trusted]
+    fn encode<B: BufMut>(&self, _buf: &mut B) -> Result<(), Error> {
+        panic!("No")
+        // T::from(self.clone())
+        //     .encode(buf)
+        //     .map_err(|e| Kind::EncodeMessage.context(e).into())
     }
 
     /// Encode with a length-delimiter to a buffer in Protobuf format.
@@ -133,10 +135,12 @@ where
     /// its counterpart Protobuf data structure.
     ///
     /// [`prost::Message::encode_length_delimited`]: https://docs.rs/prost/*/prost/trait.Message.html#method.encode_length_delimited
-    fn encode_length_delimited<B: BufMut>(&self, buf: &mut B) -> Result<(), Error> {
-        T::from(self.clone())
-            .encode_length_delimited(buf)
-            .map_err(|e| Kind::EncodeMessage.context(e).into())
+    #[trusted]
+    fn encode_length_delimited<B: BufMut>(&self, _buf: &mut B) -> Result<(), Error> {
+        panic!("no")
+        // T::from(self.clone())
+        //     .encode_length_delimited(buf)
+        //     .map_err(|e| Kind::EncodeMessage.context(e).into())
     }
 
     /// Constructor that attempts to decode an instance from a buffer.
@@ -147,11 +151,13 @@ where
     /// prior to constructing the destination type.
     ///
     /// [`prost::Message::decode`]: https://docs.rs/prost/*/prost/trait.Message.html#method.decode
-    fn decode<B: Buf>(buf: B) -> Result<Self, Error> {
-        T::decode(buf).map_or_else(
-            |e| Err(Kind::DecodeMessage.context(e).into()),
-            |t| Self::try_from(t).map_err(|e| Kind::TryFromProtobuf.context(e).into()),
-        )
+    #[trusted]
+    fn decode<B: Buf>(_buf: B) -> Result<Self, Error> {
+        panic!("no")
+        // T::decode(buf).map_or_else(
+        //     |e| Err(Kind::DecodeMessage.context(e).into()),
+        //     |t| Self::try_from(t).map_err(|e| Kind::TryFromProtobuf.context(e).into()),
+        // )
     }
 
     /// Constructor that attempts to decode a length-delimited instance from
@@ -163,11 +169,13 @@ where
     /// additional validation prior to constructing the destination type.
     ///
     /// [`prost::Message::decode_length_delimited`]: https://docs.rs/prost/*/prost/trait.Message.html#method.decode_length_delimited
-    fn decode_length_delimited<B: Buf>(buf: B) -> Result<Self, Error> {
-        T::decode_length_delimited(buf).map_or_else(
-            |e| Err(Kind::DecodeMessage.context(e).into()),
-            |t| Self::try_from(t).map_err(|e| Kind::TryFromProtobuf.context(e).into()),
-        )
+    #[trusted]
+    fn decode_length_delimited<B: Buf>(_buf: B) -> Result<Self, Error> {
+        panic!("no")
+        // T::decode_length_delimited(buf).map_or_else(
+        //     |e| Err(Kind::DecodeMessage.context(e).into()),
+        //     |t| Self::try_from(t).map_err(|e| Kind::TryFromProtobuf.context(e).into()),
+        // )
     }
 
     /// Returns the encoded length of the message without a length delimiter.
@@ -177,7 +185,8 @@ where
     ///
     /// [`prost::Message::encoded_len`]: https://docs.rs/prost/*/prost/trait.Message.html#method.encoded_len
     fn encoded_len(&self) -> usize {
-        T::from(self.clone()).encoded_len()
+        0
+        // T::from(self.clone()).encoded_len()
     }
 
     /// Encodes into a Protobuf-encoded `Vec<u8>`.
